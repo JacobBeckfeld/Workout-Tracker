@@ -7,22 +7,31 @@ router.get("/api/workouts", (req, res) => {
     db.Workout.find({})
     .then((workoutDB) => {
         res.json(workoutDB)
+        // console.log(workoutDB)
     })
     .catch(err => {
         res.json(err)
     })
 });
 
-router.put("/api/workouts", (req, res) => {
-    
+router.put("/api/workouts/:id", ( req, res) => {
+    db.Workout.findByIdAndUpdate(
+        { _id: req.params},
+        {$push: {exersises: req.body}}, {new: true}
+    )
+    .then(workoutDB => {
+        res.json(workoutDB)
+    }).catch(err => {
+        res.json(err)
+    })
 });
 
-router.post("/api/workouts", ({body}, res) => {
-    db.Workout.create(body)
-    .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: { exercises: _id } }, { new: true}))
-    .then((workoutDB) => {
-        res.json(workoutDB);
-    })
+router.post("/api/workouts", (req, res) => {
+    db.Workout.create({})
+    .then((workoutDB => {
+        res.json(workoutDB)
+        console.log(workoutDB)
+    }))
     .catch(err => {
         res.json(err)
     })
