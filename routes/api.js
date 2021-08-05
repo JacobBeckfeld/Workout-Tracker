@@ -16,8 +16,8 @@ router.get("/api/workouts", (req, res) => {
 
 router.put("/api/workouts/:id", ( req, res) => {
     db.Workout.findByIdAndUpdate(
-        { _id: req.params},
-        {$push: {exersises: req.body}}, {new: true}
+        { _id: req.params.id},
+        {$push: {exercises: req.body}}, {new: true}
     )
     .then(workoutDB => {
         res.json(workoutDB)
